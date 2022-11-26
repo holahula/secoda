@@ -17,7 +17,12 @@ const (
 /*
 	http://localhost:8080/extractor?host=<host>&port=<port>&username=<username>&password=<password>&dbname=<dbname>
 
-	Test: http://localhost:8080/extractor?host=127.0.0.1&port=5432&username=test&password=test&dbname=test
+	Test:
+	1. Run extractor
+	2. Spin up Postgres DB
+	3. Create user / pwd / db, i.e. test / test / test
+	4. Insert table
+	5. Query @ http://localhost:8080/extractor?host=127.0.0.1&port=5432&username=test&password=test&dbname=test
 */
 
 func main() {

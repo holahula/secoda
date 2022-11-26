@@ -1,46 +1,30 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 	"net/http"
 
 	_ "github.com/lib/pq"
+
+	"github.com/holahula/SecodaCodingChallenge/go/extractor"
 )
 
 const (
 	port string = ":8080"
 )
 
-func extractorHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/extractor" {
+/*
+	http://localhost:8080/extractor?host=<host>&port=<port>&username=<username>&password=<password>&dbname=<dbname>
 
-		http.Error(w, "404 not found", http.StatusNotFound)
-		return
-	}
-
-	if r.Method != "GET" {
-		http.Error(w, "Method is not supported", http.StatusNotFound)
-		return
-	}
-
-	fmt.Fprintf(w, "howdy")
-
-}
+	Test: http://localhost:8080/extractor?host=127.0.0.1&port=5432&username=test&password=test&dbname=test
+*/
 
 func main() {
-	db, err := sql.Open("postgres", "postgres://test:test@127.0.0.1/test")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	defer db.Close()
-
-	http.HandleFunc("/extractor", extractorHandler)
+	http.HandleFunc("/", extractor.ExtractorHandler)
 
 	fmt.Println("listening at", port)
 	if err := http.ListenAndServe(port, nil); err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 }

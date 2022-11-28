@@ -16,7 +16,7 @@ func ExtractorHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if r.Method != "GET" {
-		http.Error(w, "Method is not supported", http.StatusNotFound)
+		http.Error(w, "Method is not supported", http.StatusMethodNotAllowed)
 		return
 	}
 
@@ -42,11 +42,11 @@ func ExtractorHandler(w http.ResponseWriter, r *http.Request) {
 	metadatas, err := extractor.GetTableMetadata(isPublic)
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusTeapot)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 
 	if err := json.NewEncoder(w).Encode(metadatas); err != nil {
-		http.Error(w, err.Error(), http.StatusExpectationFailed)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 
 	return
